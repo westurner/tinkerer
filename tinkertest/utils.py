@@ -71,12 +71,14 @@ def cleanup():
 # update conf.py given a dictionary of strings to replace (from -> to)
 def update_conf(settings):
     conf_path = os.path.join(TEST_ROOT, "conf.py")
-    conf_text = open(conf_path, "r").read()
+    with open(conf_path, "r") as conf_file:
+        conf_text = conf_file.read()
 
     for setting in settings:
         conf_text = conf_text.replace(setting, settings[setting])
 
-    open(conf_path, "w").write(conf_text)
+    with open(conf_path, "w") as conf_file:
+        conf_file.write(conf_text)
 
 
 # nose mistakenly calls Sphinx extension setup functions thinking they are
