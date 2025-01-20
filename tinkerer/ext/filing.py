@@ -36,7 +36,7 @@ def create_filing_directive(name):
                     continue
 
                 if not item:
-                    logging.getLogger(__name__).warn(
+                    logging.getLogger(__name__).warning(
                         "%s: empty string in '%s' directive" %
                         (env.docname, name,))
                     continue
