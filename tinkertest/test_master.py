@@ -27,7 +27,7 @@ class TestMaster(utils.BaseTinkererTest):
 
     # validate master doc created by setup
     def test_setup(self):
-        self.assertEquals(
+        self.assertEqual(
             TestMaster.MASTER_HEAD + TestMaster.MASTER_TAIL,
             master.read_master())
 
@@ -38,7 +38,7 @@ class TestMaster(utils.BaseTinkererTest):
         master.append_doc(new_docs[0])
 
         # first doc should be appendend in the correct place
-        self.assertEquals(
+        self.assertEqual(
             TestMaster.MASTER_HEAD +
             ["   %s\n" % new_docs[0]] +
             TestMaster.MASTER_TAIL,
@@ -47,7 +47,7 @@ class TestMaster(utils.BaseTinkererTest):
         master.append_doc(new_docs[1])
 
         # second doc should be appended in the correct place
-        self.assertEquals(
+        self.assertEqual(
             TestMaster.MASTER_HEAD +
             ["   %s\n" % new_docs[0], "   %s\n" % new_docs[1]] +
             TestMaster.MASTER_TAIL,
@@ -60,7 +60,7 @@ class TestMaster(utils.BaseTinkererTest):
         # first doc should be prepended in the correct place
         master.prepend_doc(new_docs[0])
 
-        self.assertEquals(
+        self.assertEqual(
             TestMaster.MASTER_HEAD +
             ["   %s\n" % new_docs[0]] +
             TestMaster.MASTER_TAIL,
@@ -69,7 +69,7 @@ class TestMaster(utils.BaseTinkererTest):
         master.prepend_doc(new_docs[1])
 
         # order should be second doc then first doc
-        self.assertEquals(
+        self.assertEqual(
             TestMaster.MASTER_HEAD +
             ["   %s\n" % new_docs[1], "   %s\n" % new_docs[0]] +
             TestMaster.MASTER_TAIL,
@@ -87,7 +87,7 @@ class TestMaster(utils.BaseTinkererTest):
             master.remove_doc(doc_to_remove)
             new_docs.remove(doc_to_remove)
 
-            self.assertEquals(
+            self.assertEqual(
                 TestMaster.MASTER_HEAD +
                 ["   %s\n" % doc for doc in new_docs] +
                 TestMaster.MASTER_TAIL,

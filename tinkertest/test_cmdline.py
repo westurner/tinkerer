@@ -84,7 +84,7 @@ class TestCmdLine(utils.BaseTinkererTest):
         # assert file exists and check content
         self.assertTrue(os.path.exists(file_path))
         with open(file_path, "r") as f:
-            self.assertEquals("Content", f.read())
+            self.assertEqual("Content", f.read())
 
     # test post with explicit date
     def test_post_with_date(self):
@@ -134,7 +134,7 @@ class TestCmdLine(utils.BaseTinkererTest):
         # assert file exists and check content
         self.assertTrue(os.path.exists(file_path))
         with open(file_path, "r") as f:
-            self.assertEquals("Content", f.read())
+            self.assertEqual("Content", f.read())
 
     # test draft
     def test_draft(self):
@@ -202,4 +202,4 @@ class TestCmdLine(utils.BaseTinkererTest):
         cmdline.main(["--setup", "--filename"])
 
         # output should be `conf.py`
-        self.assertEquals("conf.py", test_stream.getvalue().strip())
+        self.assertEqual("conf.py", test_stream.getvalue().strip())

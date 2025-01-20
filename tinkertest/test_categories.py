@@ -39,7 +39,7 @@ def build_finished(app, exception):
     blog_categories = app.builder.env.filing["categories"]
 
     # check collected categories
-    utils.test.assertEquals(set(["category #1", "category #2"]),
+    utils.test.assertEqual(set(["category #1", "category #2"]),
                             set(blog_categories))
 
     # check categories
@@ -47,14 +47,14 @@ def build_finished(app, exception):
                     "category #1"),
                    (set(["2010/10/01/post2", "2010/10/01/post12"]),
                     "category #2")]:
-        utils.test.assertEquals(result[0], set(blog_categories[result[1]]))
+        utils.test.assertEqual(result[0], set(blog_categories[result[1]]))
 
     # check post metadata
     for result in [([("category__1", "category #1")], "2010/10/01/post1"),
                    ([("category__2", "category #2")], "2010/10/01/post2"),
                    ([("category__1", "category #1"),
                      ("category__2", "category #2")], "2010/10/01/post12")]:
-        utils.test.assertEquals(
+        utils.test.assertEqual(
             result[0],
             app.builder.env.blog_metadata[result[1]].filing["categories"])
 

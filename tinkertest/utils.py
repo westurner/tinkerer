@@ -10,7 +10,7 @@
 '''
 import os
 import shutil
-import sphinx
+import sphinx.cmd.build
 import sys
 from tinkerer import output, paths, writer
 import types
@@ -35,9 +35,10 @@ class BaseTinkererTest(unittest.TestCase):
     # invoke build
     def build(self, expected_return=0):
         print("")
-        sys.argv = ["sphinx-build", "-q", "-d", paths.doctree, "-b",
+        # call sphinx-build
+        sys.argv = ["-q", "-d", paths.doctree, "-b",
                     "html", paths.root, paths.html]
-        sphinx.main(sys.argv)
+        sphinx.cmd.build.main(sys.argv)
 
     # common teardown - cleanup working directory
     def tearDown(self):

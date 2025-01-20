@@ -9,7 +9,7 @@
     :license: FreeBSD, see LICENSE file
 '''
 import datetime
-import imp
+import importlib
 import os
 import re
 
@@ -64,4 +64,6 @@ def get_conf():
     '''
     Import conf.py from current directory.
     '''
-    return imp.load_source("conf", "./conf.py")
+    #import imp
+    #return imp.load_source("conf", "./conf.py")
+    raise NotImplementedError("conf.py")

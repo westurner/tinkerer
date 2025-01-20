@@ -37,11 +37,11 @@ def build_finished(app, exception):
 
     # check posts were identified as such
     posts = ["2010/10/%02d/post_%d" % (i + 1, i) for i in range(20)]
-    utils.test.assertEquals(set(posts), set(env.blog_posts))
+    utils.test.assertEqual(set(posts), set(env.blog_posts))
 
     # check pages were identified as such
     pages = ["pages/page_%d" % i for i in range(10)]
-    utils.test.assertEquals(set(pages), set(env.blog_pages))
+    utils.test.assertEqual(set(pages), set(env.blog_pages))
 
     # body should contain the whole 100 word string
     utils.test.assertTrue(" ".join("a" * 100) in

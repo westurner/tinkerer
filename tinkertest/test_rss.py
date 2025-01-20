@@ -74,11 +74,11 @@ class TestRSS(utils.BaseTinkererTest):
 
         data = self.get_data(doc, data)
 
-        self.assertEquals("My blog", data["title"])
-        self.assertEquals("http://127.0.0.1/blog/html/", data["link"])
-        self.assertEquals("Add intelligent tagline here", data["description"])
-        self.assertEquals("en-us", data["language"])
-        self.assertEquals(expected_pubdate(2010, 12, 3), data["pubDate"])
+        self.assertEqual("My blog", data["title"])
+        self.assertEqual("http://127.0.0.1/blog/html/", data["link"])
+        self.assertEqual("Add intelligent tagline here", data["description"])
+        self.assertEqual("en-us", data["language"])
+        self.assertEqual(expected_pubdate(2010, 12, 3), data["pubDate"])
 
         # validate XML "item" node content against expected content
         data = {
@@ -114,12 +114,12 @@ class TestRSS(utils.BaseTinkererTest):
 
             data = self.get_data(
                 doc.getElementsByTagName("item")[item["index"]], data)
-            self.assertEquals(item["link"], data["link"])
-            self.assertEquals(item["link"], data["guid"])
-            self.assertEquals(item["title"], data["title"])
+            self.assertEqual(item["link"], data["link"])
+            self.assertEqual(item["link"], data["guid"])
+            self.assertEqual(item["title"], data["title"])
             self.assertTrue(item["description"] in data["description"])
             self.assertTrue(item["category"] in data["category"])
-            self.assertEquals(item["pubDate"], data["pubDate"])
+            self.assertEqual(item["pubDate"], data["pubDate"])
 
     # get a dictionary of the given data in an XML node
     def get_data(self, node, data):

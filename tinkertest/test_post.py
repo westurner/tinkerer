@@ -18,7 +18,7 @@ from tinkerer import paths
 from tinkertest import utils
 
 import mock
-from nose.tools import raises
+import pytest
 
 
 # test creating new post
@@ -29,11 +29,11 @@ class TestPost(utils.BaseTinkererTest):
         new_post = post.create("My Post")
 
         year, month, day = tinkerer.utils.split_date()
-        self.assertEquals(year, new_post.year)
-        self.assertEquals(month, new_post.month)
-        self.assertEquals(day, new_post.day)
+        self.assertEqual(year, new_post.year)
+        self.assertEqual(month, new_post.month)
+        self.assertEqual(day, new_post.day)
 
-        self.assertEquals(
+        self.assertEqual(
             os.path.abspath(os.path.join(
                 utils.TEST_ROOT,
                 year,
@@ -46,11 +46,11 @@ class TestPost(utils.BaseTinkererTest):
 
         # create post with given date
         new_post = post.create("Date Post", datetime.date(2010, 10, 1))
-        self.assertEquals("2010", new_post.year)
-        self.assertEquals("10", new_post.month)
-        self.assertEquals("01", new_post.day)
+        self.assertEqual("2010", new_post.year)
+        self.assertEqual("10", new_post.month)
+        self.assertEqual("01", new_post.day)
 
-        self.assertEquals(
+        self.assertEqual(
             os.path.abspath(os.path.join(
                 utils.TEST_ROOT,
                 "2010",
@@ -60,7 +60,7 @@ class TestPost(utils.BaseTinkererTest):
             new_post.path)
 
         self.assertTrue(os.path.exists(new_post.path))
-        self.assertEquals("2010/10/01/date_post", new_post.docname)
+        self.assertEqual("2010/10/01/date_post", new_post.docname)
 
     def test_create_dashed(self):
         # chdir to test root and create a dummy conf.py to set the
@@ -77,11 +77,11 @@ class TestPost(utils.BaseTinkererTest):
         os.chdir(cwd)
 
         year, month, day = tinkerer.utils.split_date()
-        self.assertEquals(year, new_post.year)
-        self.assertEquals(month, new_post.month)
-        self.assertEquals(day, new_post.day)
+        self.assertEqual(year, new_post.year)
+        self.assertEqual(month, new_post.month)
+        self.assertEqual(day, new_post.day)
 
-        self.assertEquals(
+        self.assertEqual(
             os.path.abspath(os.path.join(
                 utils.TEST_ROOT,
                 year,
@@ -102,11 +102,11 @@ class TestPost(utils.BaseTinkererTest):
 
         # move file to post
         moved_post = post.move(draft_file, datetime.date(2010, 10, 1))
-        self.assertEquals("2010", moved_post.year)
-        self.assertEquals("10", moved_post.month)
-        self.assertEquals("01", moved_post.day)
+        self.assertEqual("2010", moved_post.year)
+        self.assertEqual("10", moved_post.month)
+        self.assertEqual("01", moved_post.day)
 
-        self.assertEquals(
+        self.assertEqual(
             os.path.abspath(os.path.join(
                 utils.TEST_ROOT,
                 "2010",
@@ -117,7 +117,7 @@ class TestPost(utils.BaseTinkererTest):
 
         self.assertTrue(os.path.exists(moved_post.path))
         self.assertFalse(os.path.exists(draft_file))
-        self.assertEquals("2010/10/01/afile", moved_post.docname)
+        self.assertEqual("2010/10/01/afile", moved_post.docname)
 
     # test updating master document
     def test_master_update(self):
@@ -131,10 +131,10 @@ class TestPost(utils.BaseTinkererTest):
                 if "maxdepth" in line:
                     break
 
-            self.assertEquals("\n", lines[lineno+1])
-            self.assertEquals("   2010/11/02/post_2\n", lines[lineno+2])
-            self.assertEquals("   2010/10/01/post_1\n", lines[lineno+3])
-            self.assertEquals("\n", lines[lineno+4])
+            self.assertEqual("\n", lines[lineno+1])
+            self.assertEqual("   2010/11/02/post_2\n", lines[lineno+2])
+            self.assertEqual("   2010/10/01/post_1\n", lines[lineno+3])
+            self.assertEqual("\n", lines[lineno+4])
 
     # test content
     def test_content(self):
@@ -145,7 +145,7 @@ class TestPost(utils.BaseTinkererTest):
 
         # check expected empty post content
         with open(new_post.path) as f:
-            self.assertEquals(
+            self.assertEqual(
                 f.readlines(),
                 ["My Post\n",
                  "=======\n",
@@ -162,7 +162,7 @@ class TestPost(utils.BaseTinkererTest):
                        tags="tag 1, tag 2", content="Lorem ipsum")
 
         with open(new_post.path) as f:
-            self.assertEquals(
+            self.assertEqual(
                 f.readlines(),
                 ["My Post\n",
                  "=======\n",
@@ -175,22 +175,23 @@ class TestPost(utils.BaseTinkererTest):
                  ".. comments::\n"])
 
     # test that create duplicate post raises exception
-    @raises(Exception)
     def test_create_duplicate(self):
         # create initial post
         post.create("Post1")
 
-        # should raise
-        post.create("Post1")
+        with pytest.raises(Exception):
+            # should raise
+            post.create("Post1")
 
     # test that moving post to existing post raises exception
-    @raises(Exception)
     def test_move_duplicate(self):
         # create initial post
         post.create("Post1")
 
-        # should raise
-        post.move("Post1")
+        with pytest.raises(Exception):
+            # should raise
+            # should raise
+            post.move("Post1")
 
     # test creating post with no template
     @mock.patch("tinkerer.writer.render")

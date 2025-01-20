@@ -22,7 +22,7 @@ class TestDraft(utils.BaseTinkererTest):
         # create draft with given title
         new_draft = draft.create("My Draft")
 
-        self.assertEquals(
+        self.assertEqual(
             os.path.abspath(os.path.join(
                 utils.TEST_ROOT,
                 "drafts",
@@ -74,7 +74,7 @@ class TestDraft(utils.BaseTinkererTest):
         self.assertTrue(os.path.exists(new_draft))
 
         # preview it (build should succeed)
-        self.assertEquals(0, cmdline.main(["--preview", new_draft, "-q"]))
+        self.assertEqual(0, cmdline.main(["--preview", new_draft, "-q"]))
 
         # draft should not be in TOC
         for line in master.read_master():
@@ -87,7 +87,7 @@ class TestDraft(utils.BaseTinkererTest):
 
         # check expected empty post content
         with open(new_draft) as f:
-            self.assertEquals(
+            self.assertEqual(
                 f.readlines(),
                 ["My Draft\n",
                  "========\n",

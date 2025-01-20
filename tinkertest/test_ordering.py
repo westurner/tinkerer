@@ -52,16 +52,16 @@ def build_finished(app, exception):
     relations = env.collect_relations()
 
     for docname in ordering:
-        utils.test.assertEquals(relations[docname], ordering[docname])
+        utils.test.assertEqual(relations[docname], ordering[docname])
 
     # check metadata ordering is correct
-    utils.test.assertEquals(
+    utils.test.assertEqual(
         ["2010/10/01/newest_post",
          "2010/10/01/newer_post",
          "2010/10/01/oldest_post"],
         env.blog_posts)
 
-    utils.test.assertEquals(
+    utils.test.assertEqual(
         ["pages/first_page",
          "pages/another_page"],
         env.blog_pages)
