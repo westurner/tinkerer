@@ -38,7 +38,7 @@ def setup():
         output.write.info("Done")
 
 
-def build():
+def build(in_subprocess=False, pdb=True):
     '''
     Runs a clean Sphinx build of the blog.
     '''
@@ -51,6 +51,8 @@ def build():
     if output.quiet:
         flags.append("-q")
     flags += ["-d", paths.doctree, "-b", "html", paths.root, paths.html]
+    if pdb:
+        flags += ["--pdb"]
 
     # build always prints "index.html"
     output.filename.info("index.html")
@@ -59,7 +61,12 @@ def build():
     if os.path.exists("_copy"):
         shutil.copytree("_copy/", paths.html)
 
-    return subprocess.call(flags)
+    if in_subprocess:
+        return subprocess.call(flags)
+    else:
+        # Call Sphinx programmatically
+        import sphinx.cmd.build
+        return sphinx.cmd.build.build_main(flags[1:])
 
 
 def create_post(title, date, template):
@@ -141,6 +148,8 @@ def main(argv=None):
     Parses command line and executes required action.
     '''
     parser = argparse.ArgumentParser()
+    parser.add_argument('-C', "--root", action="store", dest="root_path", nargs=1,
+                       help="path to the blog (default: .)", default=None)
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-s", "--setup", action="store_true",
                        help="setup a new blog")
@@ -182,6 +191,16 @@ def main(argv=None):
         help="output filename only - useful to pipe Tinkerer commands")
 
     command = parser.parse_args(argv)
+
+    if command.root_path:
+        import sys
+        root_path = command.root_path[-1]
+        root_path_abspath = os.path.abspath(root_path)
+        print(('root_path', root_path), file=sys.stderr)
+        print(('root_path_abspath', root_path_abspath), file=sys.stderr)
+        print((f"os.chdir({root_path_abspath!r})  # {root_path!r}"), file=sys.stderr)
+        os.chdir(root_path)
+        paths.set_paths()
 
     output.init(command.quiet, command.filename)
 

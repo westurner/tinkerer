@@ -22,7 +22,7 @@ class TestCmdLine(utils.BaseTinkererTest):
     # these tests cause lots of output, disable logging while they are running
     def setUp(self):
         logging.disable(logging.CRITICAL)
-        utils.setup()
+        utils.setup_TEST_ROOT()
 
     # re-enable logging
     def tearDown(self):

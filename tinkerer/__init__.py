@@ -8,7 +8,7 @@
     CONTRIBUTORS file)
     :license: FreeBSD, see LICENSE file
 '''
-__version__ = "1.7.2"
+__version__ = "1.8.0"
 
 master_doc = "master"
-source_suffix = ".rst"
+source_suffix = {".rst": 'restructuredtext', '.md': 'markdown'}

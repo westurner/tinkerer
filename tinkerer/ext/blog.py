@@ -8,6 +8,8 @@
     CONTRIBUTORS file)
     :license: FreeBSD, see LICENSE file
 '''
+import importlib
+
 from tinkerer.ext import (aggregator, author, filing, html5, metadata, patch,
                           readmore, rss, uistr)
 import gettext
@@ -28,22 +30,18 @@ def initialize(app):
     # localization
     languages = [app.config.language] if app.config.language else None
 
-    locale_dir = ""
     try:
-        from pkg_resources import resource_filename
-    except ImportError:
-        resource_filename = None
-
-    if resource_filename is not None:
-        try:
-            locale_dir = resource_filename(__name__, "/locale")
-        except NotImplementedError:
-            # resource_filename doesn't work with non-egg zip files
-            pass
+        import importlib.resources
+        # Get the path to the 'locale' directory inside this package
+        locale_dir = importlib.resources.files(__package__).joinpath("locale")
+        locale_dir_str = str(locale_dir)
+    except (ImportError, AttributeError):
+        # Fallback if importlib.resources is not available
+        locale_dir_str = "locale"
 
     app.t = gettext.translation(
         "tinkerer",
-        locale_dir,
+        localedir=locale_dir_str,
         languages=languages,
         fallback=True)
     app.t.install()

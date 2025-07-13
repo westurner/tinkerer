@@ -42,7 +42,7 @@ def enable_count(disqus_shortname):
 '<script type="text/javascript">'
 '    var disqus_shortname = "%s";'
 '    disqus_count();'
-'</script>' 
+'</script>'
             % disqus_shortname)
 
 
@@ -51,7 +51,7 @@ def get_count(link, identifier):
     '''
     Returns HTML required by Disqus to retrieve comment count.
     '''
-    return str('<a href="%s#disqus_thread" data-disqus-identifier="%s">%s</a>' % 
+    return str('<a href="%s#disqus_thread" data-disqus-identifier="%s">%s</a>' %
             (link, identifier, "Leave a comment"))
 
 
@@ -66,9 +66,13 @@ def add_disqus_block(app, pagename, templatename, context, doctree):
 
     env = app.builder.env
 
-    # append disqus.js if not already in context
-    if DISQUS_SCRIPT not in context["script_files"]:
-        context["script_files"].append(DISQUS_SCRIPT)
+    # # append disqus.js if not already in context
+    # if DISQUS_SCRIPT not in context["script_files"]:
+    #     context["script_files"].append(DISQUS_SCRIPT)
+
+    app.add_js_file('disqus.js')
+                    #body=create_thread(app.config.disqus_shortname,
+                    #                            pagename))
 
     # if page is blog post and has comments
     if pagename in env.blog_metadata and env.blog_metadata[pagename].comments:
