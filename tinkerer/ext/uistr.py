@@ -34,6 +34,7 @@ class UIStr:
         UIStr.CATEGORIES = unicode(_("Categories"), "utf-8")
         UIStr.TIMESTAMP_FMT = unicode(_('MMMM dd, yyyy'), "utf-8")
         UIStr.TIMESTAMP_FMT_SHORT = unicode(_('MMM dd'), "utf-8")
+        UIStr.TIMESTAMP_FMT_ISO8601_SHORT = unicode(_('yyyy-MM-dd'), "utf-8")
         UIStr.TAGGED_WITH_FMT = unicode(
             _('Posts tagged with <span class="title_tag">%s</span>'), "utf-8")
         UIStr.FILED_UNDER_FMT = unicode(

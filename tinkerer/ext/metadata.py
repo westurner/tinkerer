@@ -44,12 +44,16 @@ class Metadata:
         self.date = None
         self.formatted_date = None
         self.formatted_date_short = None
+        self.formatted_date_iso8601_short = None
         self.body = None
         self.author = None
         self.filing = {"tags": [], "categories": []}
         self.comments, self.comment_count = False, False
         self.num = Metadata.num
         Metadata.num += 1
+
+    def __repr__(self):
+        return object.__repr__(self) + " .." + repr(self.__dict__)
 
 
 class CommentsDirective(Directive):
@@ -84,6 +88,8 @@ def get_metadata(app, docname):
         format_date, format=UIStr.TIMESTAMP_FMT, locale=locale)
     format_short_ui_short = partial(
         format_date, format=UIStr.TIMESTAMP_FMT_SHORT, locale=locale)
+    format_isodate = partial(
+        format_date, format=UIStr.TIMESTAMP_FMT_ISO8601_SHORT, locale=locale)
 
     env.blog_metadata[docname] = Metadata()
     metadata = env.blog_metadata[docname]
@@ -107,6 +113,7 @@ def get_metadata(app, docname):
     # we format date here instead of inside template due to localization issues
     metadata.formatted_date = format_ui_date(metadata.date)
     metadata.formatted_date_short = format_short_ui_short(metadata.date)
+    metadata.formatted_date_iso8601_short = format_isodate(metadata.date)
 
 
 def process_metadata(app, env):
