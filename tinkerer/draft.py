@@ -24,7 +24,7 @@ def create(title, template=None):
 
     path = os.path.join(
         utils.get_path(paths.root, "drafts"),
-        name + tinkerer.source_suffix,
+        name + next(iter(tinkerer.source_suffix.keys())),
     )
 
     if os.path.exists(path):

@@ -35,7 +35,7 @@ class Page():
         # create page directory if it doesn't exist and get page path
         self.path = os.path.join(
             utils.get_path(paths.root, "pages"),
-            self.name) + tinkerer.source_suffix
+            self.name) + next(iter(tinkerer.source_suffix.keys()))
 
         # docname as it should appear in TOC
         self.docname = "pages/" + self.name

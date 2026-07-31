@@ -76,7 +76,7 @@ def set_paths(root_path="."):
         sys.path.append(os.path.abspath("./_exts"))
 
 
-    global package_path
+    global __package_path, __internal_templates_abs_path
     # package path
     __package_path = os.path.abspath(os.path.dirname(__file__))
 

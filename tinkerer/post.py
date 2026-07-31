@@ -36,6 +36,9 @@ class Post():
         else:
             self.name = utils.name_from_title(title)
 
+        if not isinstance(self.name, str):
+            raise TypeError(('self.name should be a str but is', type(self.name)))
+
         # create post directory if it doesn't exist and get post path
         self.path = os.path.join(
             utils.get_path(
@@ -43,7 +46,7 @@ class Post():
                 self.year,
                 self.month,
                 self.day),
-            self.name) + tinkerer.source_suffix
+            self.name) + next(iter(tinkerer.source_suffix.keys()))
 
         # docname as it should appear in TOC
         self.docname = "/".join([self.year, self.month, self.day, self.name])

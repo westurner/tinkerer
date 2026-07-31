@@ -64,6 +64,8 @@ def get_conf():
     '''
     Import conf.py from current directory.
     '''
-    #import imp
-    #return imp.load_source("conf", "./conf.py")
-    raise NotImplementedError("conf.py")
+    conf_path = os.path.abspath("conf.py")
+    spec = importlib.util.spec_from_file_location("tinkerer_conf", conf_path)
+    conf = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(conf)
+    return conf
