@@ -54,17 +54,19 @@
       };
     </script>
     {%- for scriptfile in script_files -%}
+      {%- set script_filename = scriptfile.filename if scriptfile.filename is defined else scriptfile -%}
         {#- Hack to filter out jquery.js auto-included by Sphinx since jquery is
            already included in head. -#}
-        {%- if "jquery" not in scriptfile.lower() -%}
-            <script type="text/javascript" src="{{ pathto(scriptfile, 1) }}"></script>
+      {%- if "jquery" not in script_filename.lower() -%}
+        <script type="text/javascript" src="{{ pathto(script_filename, 1) }}"></script>
         {%- endif -%}
     {%- endfor -%}
 {%- endmacro -%}
 
 {%- macro css() -%}
     {%- for cssfile in css_files -%}
-    <link rel="stylesheet" href="{{ pathto(cssfile, 1) }}" type="text/css" />
+  {%- set css_filename = cssfile.filename if cssfile.filename is defined else cssfile -%}
+  <link rel="stylesheet" href="{{ pathto(css_filename, 1) }}" type="text/css" />
     {%- endfor -%}
 {%- endmacro -%}
 
@@ -191,9 +193,6 @@
             <link rel="stylesheet" href="{{ pathto('_static/normalize.css', 1) }}" type="text/css">
             <link rel="stylesheet" href="{{ pathto('_static/sphinx.css', 1) }}" type="text/css">
             <link rel="stylesheet" href="{{ pathto('_static/main.css', 1) }}" type="text/css">
-            {%- if style not in ['none', 'main.css'] %}
-            <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css">
-            {%- endif %}
             <link rel="stylesheet" href="{{ pathto('_static/pygments.css', 1) }}" type="text/css" />
             <link rel="stylesheet" href="{{ pathto('_static/font-awesome.min.css', 1) }}" type="text/css">
         {%- endblock %}
