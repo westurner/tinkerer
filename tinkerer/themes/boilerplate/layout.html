@@ -74,7 +74,7 @@
 {%- macro rss_link() -%}
     <div class="rss">
         <a href="{{ rss_feed_link }}" title="Subscribe via RSS">
-            {%- if rss_symbol -%}<span class="fa fa-lg fa-rss"></span>{%- endif -%}
+            {%- if rss_symbol -%}<i class="fa fa-lg fa-rss"></i>{%- endif -%}
             {% if rss_link_text -%}{{ rss_link_text }}{% endif -%}
         </a>
     </div>
@@ -243,10 +243,6 @@
       {%- block extrahead -%} {% endblock -%}
     </head>
     <body role="document">
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
-
       <div id="container">
 
       {%- block header -%}
@@ -307,7 +303,7 @@
             {% trans copyright=copyright|e -%}&copy; Copyright {{ copyright }}. {% endtrans -%}
           {%- endif -%}
           {%- if show_sphinx -%}
-            Powered by <a href="http://www.tinkerer.me/">Tinkerer</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+            Powered by <a href="https://github.com/westurner/tinkerer">Tinkerer</a> and <a href="https://github.com/sphinx-doc/sphinx">Sphinx</a>.
           {%- endif -%}
           </footer>
       {%- endblock -%}
@@ -317,9 +313,5 @@
 
         {#- Comment plug-in initialization -#}
         {%- if comment_enabler -%}{{ comment_enabler }}{%- endif -%}
-        <!--[if lt IE 7 ]>
-          <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
-          <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
-        <![endif]-->
     </body>
 </html>
