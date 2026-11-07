@@ -35,10 +35,10 @@
     function will automatically search for all of the words. Pages
     containing fewer words won't appear in the result list.{%- endtrans -%}
   </p>
-  <form action="" method="get">
-    <input type="text" name="q" value="" />
+  <form action="" method="get" role="search" aria-label="{{ _('Documentation search') }}">
+    <input type="text" name="q" value="" aria-label="{{ _('Search query') }}" />
     <input type="submit" value="{{ _('search') }}" />
-    <span id="search-progress" style="padding-left: 10px"></span>
+    <span id="search-progress" role="status" aria-live="polite" style="padding-left: 10px"></span>
   </form>
   {%- if search_performed -%}
     <h2>{{ _('Search Results') }}</h2>
@@ -46,7 +46,7 @@
       <p>{{ _('Your search did not match any results.') }}</p>
     {%- endif -%}
   {%- endif -%}
-  <div id="search-results">
+  <div id="search-results" role="region" aria-label="{{ _('Search results') }}" aria-live="polite">
   {%- if search_results -%}
     <ul>
     {%- for href, caption, context in search_results -%}
@@ -57,4 +57,19 @@
     </ul>
   {%- endif -%}
   </div>
+  <div id="tag-search-index" hidden>
+    {%- for tag, count in tags|dictsort -%}
+      <a href="{{ pathto('tags/' + taglinks[tag]) }}" data-tag="{{ tag|e }}">{{ tag|e }}</a>
+    {%- endfor -%}
+  </div>
+  <div id="post-tag-index" hidden>
+    {%- for post, post_tags in post_tags|dictsort -%}
+      <div data-post-href="{{ pathto(post, 1) }}">
+        {%- for tag_link, tag in post_tags -%}
+          <a data-post-tag href="{{ pathto('tags/' + tag_link) }}">{{ tag|e }}</a>
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+  <div id="tag-search-results" hidden role="region" aria-label="{{ _('Matching tags') }}" aria-live="polite"></div>
 {%- endblock -%}

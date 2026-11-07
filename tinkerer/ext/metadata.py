@@ -197,6 +197,9 @@ def add_metadata(app, pagename, context):
             categories[cat[1]] += 1
     context["tags"] = tags
     context["taglinks"] = taglinks
+    context["post_tags"] = dict(
+        (post, env.blog_metadata[post].filing["tags"])
+        for post in env.blog_posts)
     context["categories"] = categories
     context["catlinks"] = catlinks
 

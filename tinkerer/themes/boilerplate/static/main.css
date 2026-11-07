@@ -23,6 +23,65 @@ body {
     line-height: 1.4;
 }
 
+ul.search li.search-result {
+    background: #fff;
+    color: #222;
+    overflow-wrap: anywhere;
+}
+.post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin-top: 6px;
+    color: #5d5a50;
+    font-size: 0.9em;
+}
+.post-tags-label {
+    font-weight: bold;
+}
+span.highlighted,
+span.highlight {
+    background: #fff2a8;
+    color: #302b13;
+    font-weight: bold;
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) ul.search li.search-result {
+        background: #191817;
+        color: #b0aaaa;
+        border: 1px solid #35332e;
+    }
+    html:not([data-theme="light"]) ul.search li.search-result a {
+        color: #9bbaff;
+    }
+    html:not([data-theme="light"]) .post-tags {
+        color: #b0aaaa;
+    }
+    html:not([data-theme="light"]) span.highlighted,
+    html:not([data-theme="light"]) span.highlight {
+        background: #f4c95d;
+        color: #211b0b;
+    }
+}
+
+html[data-theme="dark"] ul.search li.search-result {
+    background: #191817;
+    color: #b0aaaa;
+    border: 1px solid #35332e;
+}
+html[data-theme="dark"] ul.search li.search-result a {
+    color: #9bbaff;
+}
+html[data-theme="dark"] .post-tags {
+    color: #b0aaaa;
+}
+html[data-theme="dark"] span.highlighted,
+html[data-theme="dark"] span.highlight {
+    background: #f4c95d;
+    color: #211b0b;
+}
+
 /*
  * Remove text-shadow in selection highlight: h5bp.com/i
  * These selection declarations have to be separate.
