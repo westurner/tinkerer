@@ -8,7 +8,7 @@
     CONTRIBUTORS file)
     :license: FreeBSD, see LICENSE file
 '''
-import mock
+from unittest import mock
 import os
 import sys
 from tinkerer import page, post

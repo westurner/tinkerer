@@ -10,12 +10,12 @@
 '''
 import os
 
-from tinkerer import page
+from tinkerer import master, page
 from tinkerer import paths
 import tinkerer
 from tinkertest import utils
 
-import mock
+from unittest import mock
 import pytest
 
 
@@ -80,6 +80,23 @@ class TestPage(utils.BaseTinkererTest):
                 ["My Page\n",
                  "=======\n",
                  "\n"])
+
+    def test_myst_markdown_page_is_built_and_searchable(self):
+        source_path = os.path.join(
+            utils.TEST_ROOT, "pages", "markdown_search_test.md")
+        os.makedirs(os.path.dirname(source_path), exist_ok=True)
+        with open(source_path, "w") as source_file:
+            source_file.write(
+                "# Markdown Search Test\n\n" "mystsearchfixture\n")
+        master.append_doc("pages/markdown_search_test")
+
+        self.build()
+
+        output_path = os.path.join(
+            paths.html, "pages", "markdown_search_test.html")
+        self.assertTrue(os.path.exists(output_path))
+        with open(os.path.join(paths.html, "searchindex.js")) as search_index:
+            self.assertIn("mystsearchfixtur", search_index.read())
 
     # test that create duplicate page raises exception
     def test_create_duplicate(self):

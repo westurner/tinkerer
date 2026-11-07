@@ -19,7 +19,7 @@ from tinkerer.ext import rss
 
 from tinkertest import utils
 
-import mock
+from unittest import mock
 
 
 # get expected pubdate based on date

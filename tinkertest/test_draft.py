@@ -9,7 +9,7 @@
     :license: FreeBSD, see LICENSE file
 '''
 import datetime
-import mock
+from unittest import mock
 import os
 from tinkerer import cmdline, draft, master, page, paths, post
 from tinkertest import utils

@@ -21,18 +21,26 @@ RSS feed generation, comments powered by Disqus and more.
 Tinkerer is also highly customizable through Sphinx extensions.
 '''
 
-requires = ["Jinja2>=2.3", "Sphinx==8.1.3", "Babel>=1.3", "pyquery>=1.2.8"]
+requires = ["Jinja2>=2.3", "Sphinx==8.1.3", "Babel>=1.3", "pyquery>=1.2.8",
+            "myst-parser>=2.0"]
 
 test_requires = ['pytest', 'tox']
 
 setup(
     name = "Tinkerer",
     version = tinkerer.__version__,
-    url = "http://tinkerer.me/",
-    download_url = "http://pypi.python.org/pypi/Tinkerer",
+    url = "https://github.com/westurner/tinkerer",
+    #download_url = "http://pypi.python.org/pypi/Tinkerer",
     license = "FreeBSD",
-    author = "Vlad Riscutia",
-    author_email = "riscutiavlad@gmail.com",
+
+    # https://github.com/vladris/tinkerer (archived 2024)
+    #author = "Vlad Riscutia",
+    #author_email = "riscutiavlad@gmail.com",
+
+    # https://github.com/westurner/tinkerer
+    author = "Vlad Riscuita, Wes Turner",
+    author_email = "wes@wrd.nu",
+
     description = "Sphinx-based blogging engine",
     long_description = long_desc,
     classifiers = [

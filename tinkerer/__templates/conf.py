@@ -69,6 +69,15 @@ first_page_title = None
 # Add other Sphinx extensions here
 extensions = [{{ extensions }}]
 
+# Source suffixes determine which documents Sphinx builds and searches.
+# Keep .rst enabled for Tinkerrer's master document; add or remove .md as needed.
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'markdown',
+}
+if '.md' in source_suffix and 'myst_parser' not in extensions:
+    extensions.append('myst_parser')
+
 # Add other template paths here
 templates_path = ['_templates']
 
@@ -94,7 +103,6 @@ html_use_index = False
 # Tinkerer to play nice with Sphinx
 # **************************************************************
 
-source_suffix = tinkerer.source_suffix
 master_doc = tinkerer.master_doc
 version = tinkerer.__version__
 release = tinkerer.__version__

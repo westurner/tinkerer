@@ -17,7 +17,7 @@ from tinkerer import paths
 
 from tinkertest import utils
 
-import mock
+from unittest import mock
 import pytest
 
 
