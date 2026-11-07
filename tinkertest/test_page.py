@@ -107,6 +107,14 @@ class TestPage(utils.BaseTinkererTest):
             # should raise
             page.create("Page1")
 
+    @mock.patch("tinkerer.writer.render")
+    @mock.patch("tinkerer.master.exists_doc", return_value=True)
+    def test_create_already_in_master(self, exists_doc, render):
+        new_page = page.create("Existing Entry")
+
+        exists_doc.assert_called_once_with(new_page.docname)
+        render.assert_called_once()
+
     # test that moving page to existing page raises exception
     def test_move_duplicate(self):
         # create initial page
@@ -115,6 +123,24 @@ class TestPage(utils.BaseTinkererTest):
         with pytest.raises(Exception):
             # should raise
             page.move("Page1")
+
+    @mock.patch("tinkerer.page.os.path.exists", return_value=True)
+    def test_move_existing_destination(self, exists):
+        with self.assertRaisesRegex(Exception, "already exists"):
+            page.move("source.rst")
+
+    @mock.patch("tinkerer.master.append_doc")
+    @mock.patch("tinkerer.master.exists_doc", return_value=True)
+    def test_move_already_in_master(self, exists_doc, append_doc):
+        source_path = os.path.join(utils.TEST_ROOT, "drafts", "mastered.rst")
+        with open(source_path, "w") as source_file:
+            source_file.write("Content")
+
+        moved_page = page.move(source_path)
+
+        self.assertTrue(os.path.exists(moved_page.path))
+        exists_doc.assert_called_once_with(moved_page.docname)
+        append_doc.assert_not_called()
 
     @mock.patch('tinkerer.writer.render')
     def test_create_without_template(self, render):

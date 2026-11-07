@@ -31,6 +31,11 @@ class TestDraft(utils.BaseTinkererTest):
 
         self.assertTrue(os.path.exists(new_draft))
 
+    def test_create_duplicate(self):
+        draft.create("Repeated Draft")
+        with self.assertRaisesRegex(Exception, "already exists"):
+            draft.create("Repeated Draft")
+
     # test moving draft from existing files
     def test_move(self):
         # create a post and a page
@@ -59,6 +64,17 @@ class TestDraft(utils.BaseTinkererTest):
         lines = master.read_master()
         self.assertFalse("   %s\n" % new_post.docname in lines)
         self.assertFalse("   %s\n" % new_page.docname in lines)
+
+    def test_move_from_unrecognized_directory(self):
+        source_path = os.path.join(utils.TEST_ROOT, "source.rst")
+        with open(source_path, "w") as source_file:
+            source_file.write("Content")
+
+        moved_path = draft.move(source_path)
+
+        self.assertEqual(os.path.join(utils.TEST_ROOT, "drafts", "source.rst"),
+                         moved_path)
+        self.assertTrue(os.path.exists(moved_path))
 
     # test draft preview
     def test_preview(self):

@@ -183,6 +183,14 @@ class TestPost(utils.BaseTinkererTest):
             # should raise
             post.create("Post1")
 
+    @mock.patch("tinkerer.writer.render")
+    @mock.patch("tinkerer.master.exists_doc", return_value=True)
+    def test_create_already_in_master(self, exists_doc, render):
+        new_post = post.create("Existing Entry", datetime.date(2010, 10, 1))
+
+        exists_doc.assert_called_once_with(new_post.docname)
+        render.assert_called_once()
+
     # test that moving post to existing post raises exception
     def test_move_duplicate(self):
         # create initial post
@@ -190,8 +198,30 @@ class TestPost(utils.BaseTinkererTest):
 
         with pytest.raises(Exception):
             # should raise
-            # should raise
             post.move("Post1")
+
+    def test_non_string_post_name(self):
+        with mock.patch("tinkerer.post.utils.name_from_title", return_value=1):
+            with self.assertRaisesRegex(TypeError, "self.name should be a str"):
+                post.Post("Invalid name")
+
+    @mock.patch("tinkerer.post.os.path.exists", return_value=True)
+    def test_move_existing_destination(self, exists):
+        with self.assertRaisesRegex(Exception, "already exists"):
+            post.move("source.rst", datetime.date(2010, 10, 1))
+
+    @mock.patch("tinkerer.master.prepend_doc")
+    @mock.patch("tinkerer.master.exists_doc", return_value=True)
+    def test_move_already_in_master(self, exists_doc, prepend_doc):
+        source_path = os.path.join(utils.TEST_ROOT, "drafts", "mastered.rst")
+        with open(source_path, "w") as source_file:
+            source_file.write("Content")
+
+        moved_post = post.move(source_path, datetime.date(2010, 10, 1))
+
+        self.assertTrue(os.path.exists(moved_post.path))
+        exists_doc.assert_called_once_with(moved_post.docname)
+        prepend_doc.assert_not_called()
 
     # test creating post with no template
     @mock.patch("tinkerer.writer.render")

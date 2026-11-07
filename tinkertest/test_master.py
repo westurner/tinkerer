@@ -75,6 +75,24 @@ class TestMaster(utils.BaseTinkererTest):
             TestMaster.MASTER_TAIL,
             master.read_master())
 
+    def test_prepend_without_maxdepth(self):
+        master.write_master(["Title\n", "=====\n"])
+
+        master.prepend_doc("orphan")
+
+        self.assertEqual(["Title\n", "=====\n", "   orphan\n"],
+                         master.read_master())
+
+    def test_append_stops_after_toc_blank_lines(self):
+        master.write_master([
+            ".. toctree::\n", "   :maxdepth: 1\n", "\n", "\n", "tail\n"])
+
+        master.append_doc("last")
+
+        self.assertEqual([
+            ".. toctree::\n", "   :maxdepth: 1\n", "\n", "\n",
+            "   last\n", "tail\n"], master.read_master())
+
     # test removing from the TOC
     def test_remove(self):
         # append 4 docs

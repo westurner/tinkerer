@@ -11,11 +11,22 @@
 import datetime
 import os
 from tinkerer import paths, post
+from tinkerer.ext.patch import patch_links
 from tinkertest import utils
 
 
 # test case
 class TestPatch(utils.BaseTinkererTest):
+
+    def test_patch_links_without_post_name(self):
+        body = ('<div><img src="icon.png"/><a name="anchor"></a>'
+                '<a href="https://example.test">external</a></div>')
+
+        patched = patch_links(body, "2010/10/01/", docname=None)
+
+        self.assertIn('src="icon.png"', patched)
+        self.assertIn('<a name="anchor"', patched)
+        self.assertIn('href="https://example.test"', patched)
 
     def check_posts(self, filenames, posts, expected):
         # helper function which creates given list of files and posts, runs a
